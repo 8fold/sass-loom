@@ -8,6 +8,14 @@ When describing pains and joys we will reference to example libraries and framew
 
 Finally while the assessment presents a dichotomy (pain vs. joy) it is meant as a tool to keep us from fence-sitting; the line is not hard and the scale is long.
 
+## Joy
+
+- Helpful, complete, and minimal documenation: TailwindCSS, Sass, 
+- Utility classes for rapid development and styling before committing to a definition: TailWindCSS, USWDS,
+- CSS-first philosophy: Sass
+
 ## Pain
 
-## Joy
+- The market in general seems kind of settled; many UI libraries that were "up and coming" now seem to have gone stail - if we don't want to use it, it's really not worth making a product out of it *and* depending on someone else to be around in the next 2 or 3 years is touch or go: Semantic UI, Scut, 
+- Utility classes as anything beyond a means to a new means.
+- Configuration (subtractive) over extension/convention (additive): TailWindCSS
