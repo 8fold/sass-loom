@@ -8,6 +8,8 @@ When describing pains and joys we will reference to example libraries and framew
 
 Finally while the assessment presents a dichotomy (pain vs. joy) it is meant as a tool to keep us from fence-sitting; the line is not hard and the scale is long.
 
+We do not know if the world needs something different. With that said, 8fold may want something different.
+
 ## Joy
 
 - Helpful, complete, and minimal documenation: TailwindCSS, Sass, 
