@@ -50,6 +50,8 @@ We do not know if the world needs something different. With that said, 8fold may
 
 CSS offers various functions, making CSS more of a programming language not just a style definition language.
 
+In short, everything but `attr()` without consideration.
+
 |Yes |No |
 |:--:|:--:|
 | |attr()* |
