@@ -68,3 +68,5 @@ In short, everything but `attr()` without consideration.
 |var() | |
 
 * can be used in specific use cases
+
+A more [detailed comparison](https://caniuse.com/?compare=edge+87,firefox+84,chrome+87,safari+14,ios_saf+14.0-14.2,and_chr+87,samsung+12.0&compareCats=all) overview on supported browsers as of this writing.
