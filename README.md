@@ -45,3 +45,24 @@ We do not know if the world needs something different. With that said, 8fold may
   - KaiOS Browser
 - Favor progressive enhancement over graceful degradation or loss of functionality.
 - Minimal dependencies; favor CSS + shorthands
+
+## What can we use from CSS?
+
+CSS offers various functions, making CSS more of a programming language not just a style definition language.
+
+|Yes |No |
+|:--:|:--:|
+| |attr()* |
+|calc() | |
+|cubic-bezier() | | 
+|hsl() | |
+|hsla() | |
+|linear-gradient() | |
+|repeating-linear-gradient() | | 
+|radial-gradient() | |
+|repeating-radial-gradient() | |
+|rgb() | |
+|rgba() | |
+|var() | |
+
+* can be used in specific use cases
