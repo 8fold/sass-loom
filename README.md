@@ -14,6 +14,7 @@ Finally while the assessment presents a dichotomy (pain vs. joy) it is meant as 
 - Utility classes for rapid development and styling before committing to a definition: TailWindCSS, USWDS,
 - CSS-first philosophy: Sass
 - Reduce duplication and file size for users - with minimal effort and scraping.
+- Ability to write less raw CSS while receiving more at the end: Sass
 
 ## Pain
 
