@@ -44,3 +44,4 @@ We do not know if the world needs something different. With that said, 8fold may
   - Baidu Browser
   - KaiOS Browser
 - Favor progressive enhancement over graceful degradation or loss of functionality.
+- Minimal dependencies; favor CSS + shorthands
