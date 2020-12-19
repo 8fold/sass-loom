@@ -17,6 +17,7 @@ We do not know if the world needs something different. With that said, 8fold may
 - CSS-first philosophy: Sass
 - Reduce duplication and file size for users - with minimal effort and scraping.
 - Ability to write less raw CSS while receiving more at the end: Sass
+- Accessibility as a primary concern when developing components: USWDS
 
 ## Pain
 
@@ -24,3 +25,4 @@ We do not know if the world needs something different. With that said, 8fold may
 - Utility classes as anything beyond a means to a new means.
 - Configuration (subtractive) over extension/convention (additive): TailWindCSS, BootStrap, Foundation
 - Without customization sites risk looking and feeling the same; saw this particularly around 2015 as rapid prototyping was done a lot using Bootstrap, for example - not we may be experiencing a new problem as many seem to be open sourcing their design systems: Google Material Design, US Web Design System, 
+- Pre-defined components, HTML structures, classes, IDs, and so on to accomplish its primary function: USWDS, Bootstrap
