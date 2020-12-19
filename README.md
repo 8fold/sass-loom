@@ -26,3 +26,21 @@ We do not know if the world needs something different. With that said, 8fold may
 - Configuration (subtractive) over extension/convention (additive): TailWindCSS, BootStrap, Foundation
 - Without customization sites risk looking and feeling the same; saw this particularly around 2015 as rapid prototyping was done a lot using Bootstrap, for example - not we may be experiencing a new problem as many seem to be open sourcing their design systems: Google Material Design, US Web Design System, 
 - Pre-defined components, HTML structures, classes, IDs, and so on to accomplish its primary function: USWDS, Bootstrap
+
+## Desired
+
+- Helps in either teaching CSS practicess that help improve user and developer experience; with that priority order.
+  - Style elements first.
+  - Use attributes as selectors more than creating classes.
+  - Classes are a last resort.
+- Push new CSS features based on suporting browsers with 1.5% usage based on [CanIUse table](https://caniuse.com/usage-table), which means no support as of this writing for:
+  - IE
+  - Opera and Opera Mini
+  - Android Browser
+  - Opea Mobile
+  - Firefox for Android
+  - UC Browser for Android
+  - QQ Browser
+  - Baidu Browser
+  - KaiOS Browser
+- Favor progressive enhancement over graceful degradation or loss of functionality.
