@@ -1,0 +1,284 @@
+/**
+ * This is the original Sass file used for generating CSS for the 8fold Handbook and is considered the baseline for the other examples.
+ *  
+ * Note: Imports not included in the following figures.
+ *
+ * 
+ * CSS files sizes (in kilobytes):
+ *
+ * - Minified + zipped: 1.49kb
+ * - Minified: 4.24kb
+ * - Uncompressed: 5.31kb
+ * 
+ */
+@import "./ef-layouts.scss";
+@import "./ef-typography.scss";
+
+:root {
+  --header-font: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+  --body-font: "Open Sans", Helvetica, Verdana, sans-serif;
+
+  --color-ef-key: hsl(298,92%,43%);
+  --color-ef-white: hsl(202,2%,99%);
+  --color-ef-black: hsl(202,19%,19%);
+  --color-ef-black-light: hsl(202,19%,30%);
+}
+
+body {
+  margin: 0;
+  font-family: var(--header-font);
+  background-color: var(--color-ef-white);
+  @include font-size;
+}
+
+header {
+  & > nav {
+    margin: 0 auto;
+    max-width: 1000px;
+    & > a {
+      display: inline-block;
+      margin: 4rem auto;
+      padding: 0;
+      width: 100%;
+      height: 122px;
+      background-image: url("/assets/ui/logo.svg");
+      background-size: auto 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      transition: all 0.3s;
+
+      &:hover {
+        filter: invert(26%) sepia(98%) saturate(4247%) hue-rotate(286deg) brightness(87%) contrast(122%);
+      }
+
+      & > span {
+        @include sr-only;
+      }
+    }
+  }
+}
+
+body > nav {
+  & #main-nav-form {
+    text-align: center;
+
+    & > label {
+      display: inline-block;
+      margin-right: 1rem;
+    }
+
+    & > select {
+      margin: 0 auto;
+      border: none;
+      border-radius: 0;
+      border-bottom: 2px solid var(--color-ef-key);
+
+      appearance: none;
+      color: var(--color-ef-key);
+      background-color: var(--color-ef-white);
+
+      @include font-size;
+    }
+
+    & > button {
+      position: relative;
+      top: 0.25rem;
+      margin: 0 1rem;
+      padding: 0.25rem 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--color-ef-key);
+      color: var(--color-ef-white);
+      font-weight: bold;
+      @include font-size;
+
+      &:hover {
+        background-color: var(--color-ef-black);
+      }
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 4rem;
+  clear: both;
+  font-family: var(--header-font);
+}
+
+h3, h4, h5, h6 {
+  text-align: center;
+}
+
+main {
+  margin: 0 1rem;
+  padding-top: 4rem;
+  max-width: 1000px;
+  line-height: 2.25rem;
+
+  @include media-desktop {
+    margin: 0 auto;
+  }
+
+  & a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--color-ef-key);
+    transition: all 0.3s;
+
+    &[rel~="noreferrer"]:after {
+      content: " \29C9";
+      font-size: 0.8rem;
+      position: relative;
+      top: -6px;
+    }
+
+    &:hover {
+      color: var(--color-ef-black-light);
+    }
+  }
+
+  & .heading-permalink {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  p, table {
+    margin: 0.5rem 0;
+    margin-bottom: 1.5rem;
+  }
+
+  table {
+    border-collapse: collapse;
+    border: 1px solid var(--color-ef-black-light);
+    width: 100%;
+
+    th, td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--color-ef-black-light);
+    }
+  }
+}
+
+nav.next-previous {
+  margin: 2rem auto;
+  margin-top: 4rem;
+
+  @include media-desktop {
+    max-width: 1000px;
+    display: grid;
+    grid-gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "previous next";
+  }
+
+  & > a {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border: 3px solid var(--color-ef-key);
+    border-radius: 5px;
+    text-decoration: none;
+    color: var(--color-ef-key);
+    transition: all 0.3s;
+
+    display: block;
+    margin: 1rem;
+
+    &:hover {
+      color: var(--color-ef-white);
+      background-color: var(--color-ef-key);
+    }
+
+    @include media-desktop {
+      &.next {
+        grid-area: next;
+      }
+
+      &.previous {
+        grid-area: previous;
+      }
+    }
+  }
+}
+
+[is="accordion"] {
+  margin: 0;
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+
+  padding: 0;
+
+  & > button {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding: 1rem;
+    border: none;
+
+    cursor: pointer;
+
+    width: 100%;
+    text-align: left;
+    font-size: 2rem;
+    color: var(--color-ef-white);
+    font-family: var(--header-font);
+    font-weight: bold;
+
+    background-color: var(--color-ef-key);
+    transition: all 0.3s;
+    &:hover {
+      background-color: var(--color-ef-black-light);
+    }
+
+    &:before {
+      content: "+";
+      font-size: 32px;
+      margin-right: 8px;
+    }
+
+    &[aria-expanded="true"]:before {
+      content: "−";
+    }
+  }
+
+  & + div[aria-hidden="true"] {
+    display: none;
+  }
+
+  & + div[aria-hidden="false"] {
+    padding: 1rem;
+    margin-top: -2px;
+    border: 3px solid var(--color-ef-key);
+    border-top: none;
+
+    & > ul:first-of-type {
+      margin-top: 0;
+    }
+  }
+}
+
+footer {
+  margin: 0 auto;
+  max-width: 1000px;
+  & > p {
+    text-align: center;
+    @include font-size-xs;
+  }
+
+  & a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--color-ef-key);
+    transition: all 0.3s;
+
+    &[rel~="noreferrer"]:after {
+      content: " \29C9";
+      font-size: 0.8rem;
+      position: relative;
+      top: -6px;
+    }
+
+    &:hover {
+      color: var(--color-ef-black-light);
+    }
+  }
+}
