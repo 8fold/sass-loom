@@ -1,0 +1,351 @@
+/**
+ * Setting up fluid scaling.
+ *
+ * Fonts are measured in points not pixels - in some cases it was found this
+ * roughly translates to scaling pixels, which is used on high-density displays:
+ *
+ * for - https://www.willmaster.com/library/web-development/the-biggest-reason-for-css-points-instead-of-pixels.php
+ * against-ish - https://blueprintdigital.com/font-sizes-in-responsive-design
+ *
+ * Fluid typography:
+ *
+ * https://medium.com/sketch-app-sources/truly-fluid-typography-257a2b434105
+ *
+ * 1vw = 1% of the viewport width.
+ *
+ * Sass file size: 9kb | 340 lines
+ *
+ * CSS files sizes (in kilobytes):
+ *
+ * - Minified + compressed: 2
+ * - Minified: 5
+ * - Uncompressed: 7
+ *
+ */
+
+$assets_logo: url("/assets/ui/logo.svg");
+$assets_icon-hash: "\29C9";
+$assets_icon-plus: "+";
+$assets_icon-minus: "-";
+
+$screens_size_min: 320; // 1% = (3 * 3) + 1 = 10
+
+$fonts_min-size: 10; // @min screen size, the smallest font will be ~10pt.
+
+$fonts_font-family_headers: '"Montserrat", "Trebuchet MS", Helvetica, sans-serif';
+$fonts_font-family_body:    '"Open Sans", Helvetica, Verdana, sans-serif';
+
+$fonts_font-size_10: clamp(#{$fonts_min-size}pt, #{$fonts_min-size/$screens_size_min*100}vw, #{$fonts_min-size*1.4}pt); // xs
+$fonts_font-size_16: clamp(#{$fonts_min-size*1.6}pt, #{$fonts_min-size*1.6/$screens_size_min*100}vw, #{$fonts_min-size*1.8}pt); // m
+$fonts_font-size_32: clamp(#{$fonts_min-size*3.2}pt, #{$fonts_min-size*3.2/$screens_size_min*100}vw, #{$fonts_min-size*4}pt); // 3xl
+
+$fonts_font-weight_500: 500;
+
+$layouts_inline_1-5: 1.6em;
+$layouts_inline_1-75: 1.75em;
+
+$colors_ef-purple_2: hsl(298,92%,43%); // Note: Sass converts to hex - quote string to avoid
+
+$colors_ef-gray_1: hsl(202,19%,19%);
+$colors_ef-gray_2: hsl(202,19%,30%);
+$colors_ef-gray_4: hsl(202,2%,99%);
+
+$numbers_1000:    1000;
+$numbers_122:     122;
+$numbers_100:     100;
+$numbers_4:       4;
+$numbers_2:       2;
+$numbers_1:       1;
+$numbers_0:       0;
+$numbers_0-75:    0.75;
+$numbers_0-5:     0.5;
+$numbers_0-25:    0.25;
+$numbers_0-1:     0.1;
+$numbers_neg_0-5: -0.5;
+$numbers_neg_2:   -2;
+$numbers_neg_999: -999;
+
+:root {
+  --head-font: #{$fonts_font-family_headers};
+  --body-font: #{$fonts_font-family_body};
+
+  --bold-font: #{$fonts_font-weight_500};
+
+  --3xl-font: #{$fonts_font-size_32};
+  --m-font: #{$fonts_font-size_16};
+  --xs-font: #{$fonts_font-size_10};
+
+  --l-line-height: calc(var(--3xl-font) * 1);
+  --m-line-height: calc(var(--m-font) * 1.62);
+
+  --ef-key: #{$colors_ef-purple_2};
+  --ef-gray-darkest: #{$colors_ef-gray_1};
+  --ef-gray-darker: #{$colors_ef-gray_2};
+  --ef-gray-lightest: #{$colors_ef-gray_4};
+
+  --spacer-xl: #{$numbers_4}rem;
+  --spacer-l: #{$numbers_2}rem;
+  --spacer-m: #{$numbers_1}rem;
+  --spacer-s: #{$numbers_0-75}rem;
+  --spacer-xs: #{$numbers_0-5}rem;
+  --spacer-2xs: #{$numbers_0-25}rem;
+  --spacer-3xs: #{$numbers_0-1}rem;
+
+  --spacer-none: #{$numbers_0};
+  --spacer-icon-lift: #{$numbers_neg_0-5}rem;
+  --spacer-off-screen: #{$numbers_neg_999}em;
+
+  --px-1000: #{$numbers_1000}px;
+  --px-neg-2: #{$numbers_neg_2}px;
+
+  --fr-1: #{$numbers_1}fr;
+
+  --100-percent: #{$numbers_100}%;
+
+  --scale-proportional: var(--100-percent) var(--auto);
+
+  --transition-color: color #{$numbers_0-25}s;
+  --transition-bg-color: background-color #{$numbers_0-25}s;
+
+  --margin-centered: var(--spacer-none) var(--auto);
+  --true-center: var(--center) var(--center);
+
+  --logo: #{$assets_logo};
+  --logo-height: #{$numbers_122}px;
+
+  --icon-new-window: #{$assets_icon-hash};
+  --icon-plus: #{$assets_icon-plus};
+  --icon-minus: #{$assets_icon-minus};
+
+  --grid-columns-2: "#{$numbers_1} #{$numbers_2}";
+
+  --none: none;
+  --transparent: transparent;
+  --collapse: collapse;
+  --pointer: pointer;
+  --center: center;
+  --left: left;
+  --solid: solid;
+  --auto: auto;
+  --block: block;
+  --inline-block: inline-block;
+  --grid: grid;
+  --absolute: absolute;
+  --relative: relative;
+  --no-repeat: no-repeat;
+}
+
+body {
+  min-height: 0vw; // FIX: Safari 14 using vw with min, max, and clamp
+  max-width: var(--px-1000);
+
+  margin: var(--margin-centered);
+
+  background: var(--ef-gray-lightest);
+
+  color: var(--ef-gray-darkest);
+  font-family: var(--body-font);
+  font-size: var(--m-font);
+  line-height: var(--m-line-height);
+}
+
+a, button {
+  font-weight: var(--bold-font);
+}
+
+button {
+  background: var(--ef-key);
+  border: var(--none);
+  color: var(--ef-gray-lightest);
+  transition: var(--transition-bg-color);
+  font-size: var(--m-font);
+
+  &:hover {
+    background: var(--ef-gray-darker);
+  }
+}
+
+a {
+  text-decoration: var(--none);
+  font-weight: var(--bold-font);
+  color: var(--ef-key);
+
+  transition: var(--transition-color);
+  &:hover {
+    color: var(--ef-gray-darker);
+  }
+}
+
+button:hover, a:hover {
+  cursor: var(--pointer);
+}
+
+header > nav > a {
+  display: var(--inline-block);
+
+  margin: var(--spacer-xl) var(--margin-auto);
+  padding: var(--spacer-none);
+
+  width: var(--100-percent);
+  height: var(--logo-height);
+
+  background-image: var(--logo);
+  background-position: var(--true-center);
+  background-repeat: var(--no-repeat);
+
+  &:hover {
+    filter: invert(26%) sepia(98%) saturate(4247%) hue-rotate(286deg) brightness(87%) contrast(122%);
+  }
+
+  & > span {
+    position: var(--absolute);
+    left: var(--spacer-off-screen);
+  }
+}
+
+body > #main-nav-form {
+  text-align: var(--center);
+
+  & label {
+    display: var(--inline-block);
+    margin-right: var(--spacer-m);
+  }
+
+  & select {
+    appearance: var(--none);
+    border-radius: var(--spacer-none);
+    border: var(--none);
+    border-bottom: var(--spacer-3xs) var(--solid) var(--ef-key);
+    background: var(--transparent);
+    color: var(--ef-key);
+
+    font-size: var(--m-font);
+  }
+
+  & button {
+    position: var(--relative);
+    top: var(--spacer-2xs);
+
+    margin: var(--spacer-none) var(--spacer-m);
+    padding: var(--spacer-2xs) var(--spacer-m);
+    border-radius: var(--spacer-xs);
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: var(--spacer-xl);
+  font-family: var(--head-font);
+  font-size: var(--3xl-font);
+  line-height: var(--l-line-height);
+}
+
+h3, h4, h5, h6 {
+  text-align: var(--center);
+}
+
+main {
+  margin: var(--spacer-none) var(--spacer-xs);
+  padding-top: var(--spacer-xl);
+
+  & .heading-permalink {
+    display: var(--inline-block);
+    margin-right: var(--spacer-2xs);
+  }
+
+  table {
+    border-collapse: var(--collapse);
+    border: var(--spacer-3xs) var(--solid) var(--ef-gray-darker);
+    width: var(--100-percent); // will need to be changed
+
+    th, td {
+      padding: var(--spacer-s);
+      border-bottom: var(--spacer-3xs) var(--solid) var(--ef-gray-darker);
+    }
+  }
+}
+
+nav.next-previous {
+  margin: var(--spacer-xl) var(--auto) var(--spacer-l);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      display: var(--grid);
+      grid-gap: var(--spacer-xl);
+      grid-template-columns: var(--fr-1) var(--fr-1);
+      grid-template-areas: var(--grid-columns-2);
+  }
+
+  & > a {
+    display: var(--block);
+    margin: var(--spacer-m);
+    padding: var(--spacer-xs) var(--spacer-m);
+    border: var(--spacer-2xs) var(--solid) var(--ef-key);
+    border-radius: var(--spacer-xs);
+
+    text-align: var(--center);
+
+    transition: var(--transition-color), var(--transition-bg-color);
+
+    &:hover {
+      color: var(--ef-gray-lightest);
+      background-color: var(--ef-key);
+    }
+  }
+}
+
+[is="accordion"] {
+  margin: var(--spacer-none);
+  padding: var(--spacer-none);
+
+  &:first-of-type {
+    margin-top: var(--spacer-m);
+  }
+
+  & > button {
+    margin-top: var(--spacer-m);
+    margin-bottom: var(--spacer-none);
+    padding: var(--spacer-m);
+
+    width: var(--100-percent);
+
+    font-size: var(--spacer-l);
+    text-align: var(--left);
+
+    &:before {
+      margin-right: var(--spacer-xs);
+      content: var(--icon-plus);
+      font-size: var(--xl-font);
+    }
+
+    &[aria-expanded="true"]:before {
+      content: var(--icon-minus);
+    }
+  }
+
+  & + div[aria-hidden="true"] {
+    display: var(--none);
+  }
+
+  & + div[aria-hidden="false"] {
+    padding: var(--spacer-m);
+    margin-top: var(--px-neg-2);
+    border: var(--spacer-2xs) var(--solid) var(--ef-key);
+
+    & > ul:first-of-type {
+      margin-top: var(--spacer-none);
+    }
+  }
+}
+
+footer {
+  & > p {
+    text-align: var(--center);
+    font-size: var(--xs-font);
+  }
+}
+
+[rel~="noreferrer"]:after {
+  content: var(--icon-new-window);
+  display: var(--inline-block);
+  margin-left: var(--spacer-2xs);
+  position: var(--relative);
+  top: var(--spacer-icon-lift);
+}

@@ -1,0 +1,374 @@
+/**
+ * Using the CSS-only with variables appraoch. No major consolidations or 
+ * renamings were made.
+ *
+ * Note: No imports or external Sass modules.
+ *
+ * Sass file size: 10kb | ~350 lines
+ * 
+ * CSS files sizes (in kilobytes):
+ *
+ * - Minified + compressed: 2kb
+ * - Minified: 8kb
+ * - Uncompressed: 9kb
+ *
+ */
+
+:root {
+  // If you're familiar with object-oriented programming, this selector is like
+  // setting properties on a class. When setting CSS variables on other
+  // selectors, it's more like adding a variable to a function - and so on.
+  // 
+  // Because these variables get copiled into the final CSS we want to keep the
+  // names short, but descriptive and minimize the number of unique names and
+  // values: see sass_3
+  --header-font: "Montserrat", "Trebuchet MS", Helvetica, sans-serif; // head-font
+  --body-font: "Open Sans", Helvetica, Verdana, sans-serif; // body-font
+
+  --base-line-height: 1.75rem;    // scale-1_75-rem
+  --base-font-size: 18px;         // scale-18-px
+  --base-font-size-desktop: 20px; // scale-20px
+  --text-align-center: center;    // center
+  --text-align-left: left;        // left
+  --font-weight-bold: bold;       // font-weight-7
+
+  --color-ef-key: hsl(298,92%,43%);         // ef-key
+  --color-ef-white: hsl(202,2%,99%);        // ef-gray-4
+  --color-ef-black: hsl(202,19%,19%);       // ef-gray-1
+  --color-ef-black-light: hsl(202,19%,30%); // ef-gray-2
+
+  --keyword-none: none;               // none
+  --keyword-transparent: transparent; // transparent
+  --keyword-collapse: collapse;       // collapse
+  --cursor-pointer: pointer;          // pointer
+  --no-repeat: no-repeat;                 
+
+  --style-solid: solid; // solid
+
+  // Observation: We have multiple scales using multiple units. We should be 
+  // able to consolidate into 3:
+  // 
+  // 1. Fixed scale, using pixels
+  // 2. Root relative scale, using rems
+  // 3. Local relative scale, using ems
+  --spacing-auto: auto;           // auto
+  --spacing-neg-2-px: -2px;       // scale-px-neg-2
+  --spacing-neg-999-em: -999em;   // scale-em-neg-999
+  --spacing-0: 0;                 // scale-0
+  --spacing-neg-0_5-rem: -0.5rem; // scale-rem-neg-0_5
+  --spacing-0_25-rem: 0.25rem;    // scale-rem-0_25
+  --spacing-0_5-rem: 0.5rem;      // scale-rem-0_5
+  --spacing-0_75rem: 0.75rem;     // scale-rem-0_75
+  --spacing-1-rem: 1rem;          // scale-rem-1
+  --spacing-1_25rem: 1.25rem;     // scale-rem-1_25
+  --spacing-1_5-rem: 1.5rem;      // scale-rem-1_5
+  --spacing-2-rem: 2rem;          // scale-rem-2
+  --spacing-2_25-rem: 2.25rem;    // scale-rem-2_25
+  --spacing-4-rem: 4rem;          // scale-rem-4
+  --spacing-1-px: 1px;            // scale-px-1
+  --spacing-2-px: 2px;            // scale-px-2
+  --spacing-3-px: 3px;            // scale-px-3
+  --spacing-5-px: 5px;            // scale-px-5
+  --spacing-8-px: 8px;            // scale-px-8
+  --spacing-10-px: 10px;          // scale-px-10
+  --spacing-12-px: 12px;          // scale-px-12
+  --spacing-32-px: 32px;          // scale-px-32
+  --spacing-122-px: 122px;        // scale-px-122
+  --spacing-1000-px: 1000px;      // scale-px-1000
+  --spacing-100-percent: 100%;    // scale-percent-100
+  --spacing-1-fr: 1fr;            // scale-fr-1
+  --scale-proportion: 100% auto;  // scale-proportion
+
+  --transition-color: color 0.3s;
+  --transition-bg-color: background-color 0.3s;
+
+  --margin-centered:  var(--spacing-0) var(--spacing-auto);
+
+  --display-block: block;               // block
+  --display-inline-block: inline-block; // inline-block
+
+  --display-grid: grid;    // grid
+  --grid-columns-2: "1 2";
+
+  --position-absolute: absolute; // absolute
+  --position-relative: relative; // relative
+
+  --logo-path: url("/assets/ui/logo.svg"); // logo
+  
+  --true-center: center center;
+
+  --icon-new-window: "\29C9";
+  --icon-plus: "+";
+  --icon-minus: "-";
+}
+
+body {
+  margin: var(--spacing-0);
+
+  background: var(--color-ef-white);
+
+  font-family: var(--body-font);
+  line-height: var(--base-line-height);
+
+  font-size: var(--base-font-size);
+
+  // Adding media queries inside the selector is helpful when developing in Sass
+  // but may be a non-trivial, negative impact on the final CSS file size.
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      font-size: var(--base-font-size-desktop);
+  }
+}
+
+header {
+  & > nav {
+    margin: var(--margin-centered);
+    max-width: var(--spacing-1000-px);
+    & > a {
+      display: var(--display-inline-block);
+      margin: var(--spacing-4-rem) var(--margin-auto);
+      padding: var(--spacing-0);
+      width: var(--spacing-100-percent);
+      height: var(--spacing-122-px);
+      background-image: var(--logo-path);
+      background-position: var(--true-center);
+      background-repeat: var(--no-repeat);
+
+      &:hover {
+        filter: invert(26%) sepia(98%) saturate(4247%) hue-rotate(286deg) brightness(87%) contrast(122%);
+      }
+
+      & > span {
+        position: var(--position-absolute);
+        left: var(--spacing-neg-999-em);
+      }
+    }
+  }
+}
+
+body > #main-nav-form {
+  text-align: var(--text-align-center);
+
+  & label {
+    display: var(--display-inline-block);
+    margin-right: var(--spacing-1-rem);
+  }
+
+  & select {
+    appearance: var(--keyword-none);
+    border-radius: var(--spacing-0);
+    border: var(--keyword-none);
+    border-bottom: var(--spacing-2-px) var(--style-solid) var(--color-ef-key);
+    background: var(--transparent);
+    color: var(--color-ef-key);
+
+    line-height: var(--base-line-height);
+    font-size: var(--base-font-size);
+    @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+        font-size: var(--base-font-size-desktop);
+    }
+  }
+
+  & button { // Should be able to create a generic button at root
+    position: var(--position-relative);
+    top: var(--spacing-0_25-rem);
+
+    margin: var(--spacing-0) var(--spacing-1-rem);
+    padding: var(--spacing-0_25-rem) var(--spacing-1-rem);
+    border: var(--keyword-none);
+    border-radius: var(--spacing-5-px);
+
+    background: var(--color-ef-key);
+    color: var(--color-ef-white);
+
+    font-weight: var(--font-weight-bold);
+
+    line-height: var(--base-line-height);
+    font-size: var(--base-font-size);
+    @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+        font-size: var(--base-font-size-desktop);
+    }
+
+    &:hover {
+      cursor: var(--cursor-pointer);
+      background: var(--color-ef-black);
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: var(--spacing-4-rem);
+  font-family: var(--header-font);
+}
+
+h3, h4, h5, h6 {
+  text-align: var(--text-align-center);
+}
+
+main {
+  margin: var(--spacing-0) var(--spacing-1-rem);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+        margin: var(--spacing-0) var(--spacing-auto);
+  }
+
+  padding-top: var(--spacing-4-rem);
+  max-width: var(--spacing-1000-px);
+  line-height: var(--spacing-2_25-rem);
+  & a {
+    text-decoration: var(--keyword-none);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-ef-key);
+    transition: var(--transition-color);
+
+    // This selector would be better served at root level to reduce duplication
+    &[rel~="noreferrer"]:after {
+      content: var(--icon-new-window);
+      display: var(--inline-block);
+      margin-left: var(--spacing-0_25-rem);
+      position: var(--position-relative);
+      top: var(--spacing-neg-0_5-rem);
+    }
+
+    &:hover {
+      color: var(--color-ef-black-light);
+    }
+  }
+
+  & .heading-permalink {
+    display: var(--display-inline-block);
+    margin-right: var(--spacing-0_25-rem);
+  }
+
+  p, table {
+    margin: var(--spacing-0_5-rem) var(--spacing-0) var(--spacing-1_5-rem);
+  }
+
+  table {
+    border-collapse: var(--keyword-collapse);
+    border: var(--spacing-1-px) var(--style-solid) var(--color-ef-black-light);
+    width: var(--spacing-100-percent); // will need to be changed
+
+    th, td {
+      padding: var(--spacing-0_75rem);
+      border-bottom: var(--spacing-1-px) var(--style-solid) var(--color-ef-black-light);
+    }
+  }
+}
+
+nav.next-previous {
+  margin: var(--spacing-4-rem) var(--spacing-auto) var(--spacing-2-rem);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      max-width: var(--spacing-1000-px);
+      display: var(--display-grid);
+      grid-gap: var(--spacing-4-rem);
+      grid-template-columns: var(--spacing-1-fr) var(--spacing-1-fr);
+      grid-template-areas: var(--grid-columns-2);
+  }
+
+  & > a {
+    display: var(--display-block);
+    margin: var(--spacing-1-rem);
+    padding: var(--spacing-0_5-rem) var(--spacing-1-rem);
+    border: var(--spacing-3-px) var(--style-solid) var(--color-ef-key);
+    border-radius: var(--spacing-5-px);
+
+    text-align: var(--text-align-center);
+    text-decoration: var(--keyword-none);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-ef-key);
+
+    transition: var(--transition-color), var(--transition-bg-color);
+
+    &:hover {
+      color: var(--color-ef-white);
+      background-color: var(--color-ef-key);
+    }
+  }
+}
+
+[is="accordion"] {
+  margin: var(--spacing-0);
+  padding: var(--spacing-0);
+
+  &:first-of-type {
+    margin-top: var(--spacing-1-rem);
+  }
+
+  & > button {
+    margin-top: var(--spacing-1-rem);
+    margin-bottom: var(--spacing-0);
+    padding: var(--spacing-1-rem);
+    border: var(--keyword-none);
+
+    cursor: var(--cursor-pointer);
+
+    width: var(--spacing-100-percent);
+
+    color: var(--color-ef-white);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--spacing-2-rem);
+    text-align: var(--text-align-left);
+
+    background: var(--color-ef-key);
+
+    transition: var(--transition-bg-color);
+    &:hover {
+      background: var(--color-ef-black-light);
+    }
+
+    &:before {
+      margin-right: var(--spacing-8-px);
+      content: var(--icon-plus);
+      font-size: var(--spacing-32-px);
+    }
+
+    &[aria-expanded="true"]:before {
+      content: var(--icon-minus);
+    }
+  }
+
+  & + div[aria-hidden="true"] {
+    display: var(--keyword-none);
+  }
+
+  & + div[aria-hidden="false"] {
+    padding: var(--spacing-1-rem);
+    margin-top: var(--spacing-neg-2-px);
+    border: var(--spacing-3-px) var(--style-solid) var(--color-ef-key);
+
+    & > ul:first-of-type {
+      margin-top: var(--spacing-0);
+    }
+  }
+}
+
+footer {
+  margin: var(--margin-centered);
+  max-width: var(--spacing-1000-px);
+  & > p {
+    text-align: var(--text-align-center);
+    font-size: var(--spacing-10-px);
+    line-height: var(--spacing-1_25-rem);
+    @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      font-size: var(--spacing-12-px);
+    }
+  }
+
+  & a {
+    text-decoration: var(--keyword-none);
+    font-size: var(--font-weight-bold);
+    color: var(--color-ef-key);
+
+    transition: var(--transition-color);
+    &:hover {
+      color: var(--color-ef-black-light);
+    }
+
+    &[rel~="noreferrer"]:after {
+      content: var(--icon-new-window);
+      display: var(--inline-block);
+      margin-left: var(--spacing-0_25-rem);
+      position: var(--position-relative);
+      top: var(--spacing-neg-0_5-rem);
+    }
+  }
+}

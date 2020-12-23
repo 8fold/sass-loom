@@ -1,0 +1,384 @@
+/**
+ * Using the CSS-only with variables appraoch. Consolidations and renamings.
+ *
+ * Note: No imports or external Sass modules.
+ *
+ * Sass file size: 7kb | ~300 lines
+ * 
+ * CSS files sizes (in kilobytes):
+ *
+ * - Minified + compressed: 2kb
+ * - Minified: 5.46
+ * - Uncompressed: 7
+ *
+ */
+
+:root {
+  // Observation: By styling elements directly based on element name or path
+  // instead of class seems beneficial for the same reason grouping all the
+  // variables in one place and only using variables to set values seems
+  // beneficial - less to remember.
+  // 
+  // As a developer I don't need to have global knowledge of the specific
+  // semantics used in this approach. 
+  // 
+  // Further, because some of these variables incorporate shorthand sequences
+  // it seems easier to do a find-and-replace on an entire property definition:
+  // 
+  // ex. margin: var(--margin-centered);
+  // 
+  // Even if the variable is only used once in the entire file, the benefit
+  // seems real if for no other reason than the grouping and scannability.
+  --head-font: "Montserrat", "Trebuchet MS", Helvetica, sans-serif;
+  --body-font: "Open Sans", Helvetica, Verdana, sans-serif;
+
+  --font-weight-7: 700; // bold-font
+
+  --ef-key: hsl(298,92%,43%);
+  --ef-gray-1: hsl(202,19%,19%); // ef-gray-darkest
+  --ef-gray-2: hsl(202,19%,30%); // ef-gray-darker
+  --ef-gray-4: hsl(202,2%,99%);  // ef-gray-lightest
+
+  --scale-0: 0;
+
+  // These variable names use numbers, which locks them to their numeric
+  // implementation. Semantic names would probably do better.
+  // 
+  // Would also like to reduce the number of unique values; maybe 9 per
+  // scale at most.
+  // 
+  // Scales are also interesting because they resolve back to pixels/points
+  // eventually. Therefore, when it comes to relative scales, they are 
+  // relative to the font size; however, my understanding is that  with `rem`
+  // units, everything is relative to the root font-size that never changes,
+  // which is usually established in pixels. Therefore, these are the same:
+  // 
+  // 10px = 1rem
+  // 
+  // When font-size is established in `:root` of the `body`. With that said,
+  // I would like to use points instead to set font sizes. With the advent of
+  // high-density displays a pixel is almost invisible, which means there is
+  // dipslay software compensating. I would like to locate a talk I saw on the
+  // subject related to Apple's Retina Display and how they altered their
+  // software to use the name point to be more technically accurate becuase
+  // 1 pixel was no longer actually 1 pixel.
+  // 
+  // sizing boxes:
+  // 1000 used to set size
+  // 122  used to set height of logo home anchor
+  // 
+  // sizing fonts: will switch to fluid type, can remove most - start with breaks
+  // 32   used to make text-based icons larger
+  // 20   used to differentiate a desktop font-size and mobile font-size
+  // 18   used to set the mobile font-size
+  // 12   used to differentiate a desktop footer fontsize from mobile
+  // 10   used as the smallest possible font-size (use as basis for fluid type)
+  // 
+  // spacing:
+  // 8    used to shift the select field in the navigation form to the right  
+  // 4    used for margins  
+  // 2    used for margin and font-size
+  // 0.75 used for padding on table cell
+  // 0.5  used for margins and paddings
+  // 0.25 used for margins, paddings, and positioning
+  // -0.5 used for positioning
+  // -999 used for positioning
+  // 
+  // borders:
+  // 5    used to set border radius on some buttons and borders
+  // 3    used for borders
+
+  // universals:
+  // 1    used for margins, paddings, and font sizes
+  // 
+  // 2.25 .. not used
+  // 1.75 .. not used
+  // 1.5  .. not used
+
+  --scale-0
+
+  // spacer-*
+  --scale-rem-4: 4rem;
+  --scale-rem-2_25: 2.25rem; // not used
+  --scale-rem-2: 2rem;
+  --scale-rem-1_75: 1.75rem; // not used
+  --scale-rem-1_5: 1.5rem;   // not used
+  --scale-rem-1: 1rem;
+  --scale-rem-0_75: 0.75rem;
+  --scale-rem-0_5: 0.5rem;
+  --scale-rem-0_25: 0.25rem;
+  --scale-rem-neg-0_5: -0.5rem;
+  --scale-em-neg-999: -999em;
+
+  --scale-px-1000: 1000px; // px-1000
+  --scale-px-122: 122px;   // replace and remove
+  --scale-px-32: 32px;     // replace and remove
+  --scale-px-20: 20px;     // replace and remove
+  --scale-px-18: 18px;     // replace and remove
+  --scale-px-12: 12px;     // replace and remove
+  --scale-px-10: 10px;     // replace and remove
+  --scale-px-8: 8px;       // replace and remove
+  --scale-px-5: 5px;       // replace and remove
+  --scale-px-3: 3px;       // replace and remove
+  --scale-px-2: 2px;       // replace and remove
+  --scale-px-1: 1px;       // replace and remove
+  --scale-px-neg-2: -2px;  // px-neg-2
+
+  --scale-fr-1: 1fr; // fr-1
+
+  --scale-percent-100: 100%; // 100-percent
+
+  --scale-proportion: var(--scale-percent-100) var(--auto); // not used
+
+  --transition-color: color 0.3s; // 0.25s - minimize Sass number variables
+  --transition-bg-color: background-color 0.3s; // 0.25s
+
+  --margin-centered:  var(--scale-0) var(--auto);
+  --true-center: var(--center) var(--center);
+
+  --none: none;
+  --transparent: transparent;
+  --collapse: collapse;
+  --pointer: pointer;
+  --center: center;
+  --left: left;
+  --solid: solid;
+  --auto: auto;
+  --block: block;
+  --inline-block: inline-block;
+  --grid: grid;
+  --absolute: absolute;
+  --relative: relative;
+  --no-repeat: no-repeat;
+
+  --logo: url("/assets/ui/logo.svg");
+
+  --icon-new-window: "\29C9";
+  --icon-plus: "+";
+  --icon-minus: "-";
+
+  --grid-columns-2: "1 2";
+}
+
+body {
+  max-width: var(--scale-px-1000);
+
+  margin: var(--margin-centered);
+
+  background: var(--ef-gray-4);
+
+  font-family: var(--body-font);
+  font-size: var(--scale-px-18);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      font-size: var(--scale-px-20);
+  }
+}
+
+a, button {
+  font-weight: var(--font-weight-7);
+}
+
+button {
+  background: var(--ef-key);
+  border: var(--none);
+  color: var(--ef-gray-4);
+  transition: var(--transition-bg-color);
+  font-size: var(--scale-px-18);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      font-size: var(--scale-px-20);
+  }
+
+  &:hover {
+    background: var(--ef-gray-2);
+  }
+}
+
+a {
+  text-decoration: var(--none);
+  font-weight: var(--font-weight-7);
+  color: var(--ef-key);
+
+  transition: var(--transition-color);
+  &:hover {
+    color: var(--ef-gray-2);
+  }
+}
+
+button:hover, a:hover {
+  cursor: var(--pointer);
+}
+
+header > nav > a {
+  display: var(--inline-block);
+
+  margin: var(--scale-rem-4) var(--margin-auto);
+  padding: var(--scale-0);
+
+  width: var(--scale-percent-100);
+  height: var(--scale-px-122);
+
+  background-image: var(--logo);
+  background-position: var(--true-center);
+  background-repeat: var(--no-repeat);
+
+  &:hover {
+    filter: invert(26%) sepia(98%) saturate(4247%) hue-rotate(286deg) brightness(87%) contrast(122%);
+  }
+
+  & > span {
+    position: var(--absolute);
+    left: var(--scale-em-neg-999);
+  }
+}
+
+body > #main-nav-form {
+  text-align: var(--center);
+
+  & label {
+    display: var(--inline-block);
+    margin-right: var(--scale-rem-1);
+  }
+
+  & select {
+    appearance: var(--none);
+    border-radius: var(--scale-0);
+    border: var(--none);
+    border-bottom: var(--scale-px-2) var(--solid) var(--ef-key);
+    background: var(--transparent);
+    color: var(--ef-key);
+
+    font-size: var(--scale-px-18);
+    @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+        font-size: var(--scale-px-20);
+    }
+  }
+
+  & button {
+    position: var(--relative);
+    top: var(--scale-rem-0_25);
+
+    margin: var(--scale-0) var(--scale-rem-1);
+    padding: var(--scale-rem-0_25) var(--scale-rem-1);
+    border-radius: var(--scale-px-5);
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: var(--scale-rem-4);
+  font-family: var(--header-font);
+}
+
+h3, h4, h5, h6 {
+  text-align: var(--center);
+}
+
+main {
+  margin: var(--scale-0) var(--scale-rem-0_5);
+  padding-top: var(--scale-rem-4);
+
+  & .heading-permalink {
+    display: var(--inline-block);
+    margin-right: var(--scale-rem-0_25);
+  }
+
+  table {
+    border-collapse: var(--collapse);
+    border: var(--scale-px-1) var(--solid) var(--ef-gray-2);
+    width: var(--scale-percent-100); // will need to be changed
+
+    th, td {
+      padding: var(--scale-rem-0_75);
+      border-bottom: var(--scale-px-1) var(--solid) var(--ef-gray-2);
+    }
+  }
+}
+
+nav.next-previous {
+  margin: var(--scale-rem-4) var(--auto) var(--scale-rem-2);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      display: var(--grid);
+      grid-gap: var(--scale-rem-4);
+      grid-template-columns: var(--scale-fr-1) var(--scale-fr-1);
+      grid-template-areas: var(--grid-columns-2);
+  }
+
+  & > a {
+    display: var(--block);
+    margin: var(--scale-rem-1);
+    padding: var(--scale-rem-0_5) var(--scale-rem-1);
+    border: var(--scale-px-3) var(--solid) var(--ef-key);
+    border-radius: var(--scale-px-5);
+
+    text-align: var(--center);
+
+    transition: var(--transition-color), var(--transition-bg-color);
+
+    &:hover {
+      color: var(--ef-gray-4);
+      background-color: var(--ef-key);
+    }
+  }
+}
+
+[is="accordion"] {
+  margin: var(--scale-0);
+  padding: var(--scale-0);
+
+  &:first-of-type {
+    margin-top: var(--scale-rem-1);
+  }
+
+  & > button {
+    margin-top: var(--scale-rem-1);
+    margin-bottom: var(--scale-0);
+    padding: var(--scale-rem-1);
+
+    width: var(--scale-percent-100);
+
+    font-size: var(--scale-rem-2);
+    text-align: var(--left);
+
+    &:before {
+      margin-right: var(--scale-px-8);
+      content: var(--icon-plus);
+      font-size: var(--scale-px-32);
+    }
+
+    &[aria-expanded="true"]:before {
+      content: var(--icon-minus);
+    }
+  }
+
+  & + div[aria-hidden="true"] {
+    display: var(--none);
+  }
+
+  & + div[aria-hidden="false"] {
+    padding: var(--scale-rem-1);
+    margin-top: var(--scale-px-neg-2);
+    border: var(--scale-px-3) var(--solid) var(--ef-key);
+
+    & > ul:first-of-type {
+      margin-top: var(--scale-0);
+    }
+  }
+}
+
+footer {
+  & > p {
+    text-align: var(--center);
+    font-size: var(--scale-px-10);
+    line-height: var(--spacing-1_25-rem);
+    @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      font-size: var(--scale-px-12);
+    }
+  }
+}
+
+[rel~="noreferrer"]:after {
+  content: var(--icon-new-window);
+  display: var(--inline-block);
+  margin-left: var(--scale-rem-0_25);
+  position: var(--relative);
+  top: var(--scale-rem-neg-0_5);
+}

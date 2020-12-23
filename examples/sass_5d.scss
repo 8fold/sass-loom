@@ -1,0 +1,433 @@
+/**
+ * Using Sass map to improve code consolidation by removing CSS syntax.
+ *
+ * Sass file size: 9 | ~400 lines
+ *
+ * CSS files sizes (in kilobytes):
+ *
+ * - Minified + compressed: 2
+ * - Minified: 5
+ * - Uncompressed: 6
+ *
+ */
+
+@use "sass:map"; // needed to interact with maps
+@use "sass:list"; // needed to interact with lists
+@use "sass:meta"; // neededd to get programmatic details
+
+/**
+ * At this point, the Sass file is getting a bit cluttered. We should be able
+ * to hide the functions and mixins in a Sass module - starting with one unique
+ * to the 8fold handbook.
+ */
+@function valueAtMember($member, $vars) {
+    @if meta.type-of($member) == "number" {
+      @return list.nth($vars, $member);
+
+    }
+    @return map.get($vars, $member);
+}
+
+
+@function valueAtPath($varPath, $vars) {
+  $value: ();
+  $first: true;
+  @each $part in $varPath {
+    @if $first {
+      $value: valueAtMember($part, $vars);
+      $first: false;
+
+    } @else {
+      $value: valueAtMember($part, $value);
+
+    }
+  }
+  @return $value;
+}
+
+@function font-size($multiplierForMin: 1, $multiplierForMax: 1) {
+  $min:  map.get($variables, "fonts", "size", "min");
+  $minS: map.get($variables, "screens", "size", "min");
+
+  $minP: $min * $multiplierForMin;
+  $maxP: $min * $multiplierForMax;
+
+  $proportion: $minP / $minS * 100;
+
+  @return clamp(#{$minP}pt, #{$proportion}vw, #{$maxP}pt);
+}
+
+@function line-height($varName, $multiplier) {
+   @return calc(var(--#{$varName}) * #{$multiplier});
+}
+
+@function unit($number, $unit: "") {
+  @return #{$number}#{$unit};
+}
+
+@mixin variable($varName, $varPath) {
+  $value: ();
+
+  @if meta.type-of($varPath) != "list" {
+    $value: $varPath;
+
+  } @else {
+    $value: valueAtPath($varPath, $variables);
+
+  }
+  --#{$varName}: #{$value};
+}
+
+@mixin variables($variables...) {
+  @each $variable in $variables {
+    $varName: list.nth($variable, 1);
+    $varPath: list.nth($variable, 2);
+
+    @include variable($varName, $varPath);
+  }
+}
+
+@mixin keywords($keywords...) {
+  @each $keyword in $keywords {
+    --#{$keyword}: #{$keyword};
+  }
+}
+
+/**
+ * The proposed ef-handbook module should accept these this on import as we
+ * should let these remain readily accessible to someone looking at the root
+ * Sass for the project.
+ */
+$variables: (
+  "screens": (
+    "size": (
+      "min": 320
+    )
+  ),
+
+  "fonts": (
+    "size": (
+      "min": 10
+    ),
+    "families": (
+      "header": '"Montserrat", "Trebuchet MS", Helvetica, sans-serif',
+      "body"  : '"Open Sans", Helvetica, Verdana, sans-serif'
+    ),
+    "weights": (
+      "500": 500
+    )
+  ),
+
+  "colors": (
+    "purples": (
+      hsl(298,100%,31%)
+      hsl(298,92%,43%)
+    ),
+    "grays": (
+      hsl(202,19%,19%),
+      hsl(202,19%,30%),
+      hsl(202,2%,95%),
+      hsl(202,2%,99%)
+    )
+  ),
+
+  "assets": (
+    "logo": url("/assets/ui/logo.svg"),
+    "icon": (
+      "new-window" : '\29C9',
+      "plus"       : '"+"',
+      "minus"      : '"-"'
+    )
+  )
+);
+
+:root {
+  // Replacing the CSS syntax for Sass syntax this way may reduce learning curve.
+  @include variables(
+    (head-font, (fonts, families, header)),
+    (body-font, (fonts, families, body)),
+    (bold-font, (fonts, weights, "500")),
+    (3xl-font,  font-size(3.2, 4)),
+    (m-font,    font-size(1.6, 1.8)),
+    (xs-font,   font-size(1, 1.4)),
+
+    (ef-key,           (colors, purples, 2)),
+    (ef-gray-darkest,  (colors, grays, 1)),
+    (ef-gray-darker,   (colors, grays, 2)),
+    (ef-gray-lightest, (colors, grays, 4)),
+
+    (logo,        (assets, logo)),
+    (logo-height, 'var(--122-px)'),
+
+    (icon-new-window, (assets, icon, new-window)),
+    (icon-plus,       (assets, icon, plus)),
+    (icon-minus,      (assets, icon, minus)),
+    (l-line-height,   line-height(3xl-font, 1)),
+    (m-line-height,   line-height(m-font, 1)),
+
+    (0-spacer,          unit(0)),
+    (xl-spacer,         unit(4, rem)),
+    (l-spacer,          unit(2, rem)),
+    (m-spacer,          unit(1, rem)),
+    (s-spacer,          unit(0.75, rem)),
+    (xs-spacer,         unit(0.5, rem)),
+    (2xs-spacer,        unit(0.25, rem)),
+    (3xs-spacer,        unit(0.1, rem)),
+    (icon-lift-spacer,  unit(-0.5, rem)),
+    (off-screen-spacer, unit(-999, em)),
+    (1000-px,           unit(1000, px)),
+    (122-px,            unit(122, px)),
+    (neg-2-px,          unit(-2, px)),
+    (fr-1,              unit(1, fr)),
+    (100-percent,       unit(100, '%')),
+
+    (transition-color, 'color ' + unit(0.25, 's')),
+    (transition-bg-color, 'background-color ' + unit(0.25, 's')),
+
+    (margin-centered,   'var(--0-spacer) var(--auto)'),
+    (true-center,       'var(--center) var(--center)'),
+
+    (grid-columns-2, "'1 2'"),
+    (1, '1')
+  );
+
+  @include keywords(
+    none,
+    transparent,
+    collapse,
+    pointer,
+    center,
+    left,
+    solid,
+    auto,
+    block,
+    inline-block,
+    grid,
+    absolute,
+    relative,
+    no-repeat
+  );
+}
+
+/**
+ * Would like to move some of the more generic selectors and definitions to
+ * root.
+ */
+body {
+  min-height: 0vw; // FIX: Safari 14 using vw with min, max, and clamp
+  max-width: var(--1000-px);
+
+  margin: var(--margin-centered);
+
+  background: var(--ef-gray-lightest);
+
+  color: var(--ef-gray-darkest);
+  font-family: var(--body-font);
+  font-size: var(--m-font);
+  line-height: var(--m-line-height);
+}
+
+a, button {
+  font-weight: var(--bold-font);
+}
+
+button {
+  background: var(--ef-key);
+  border: var(--none);
+  color: var(--ef-gray-lightest);
+  transition: var(--transition-bg-color);
+  font-size: var(--m-font);
+
+  &:hover {
+    background: var(--ef-gray-darker);
+  }
+}
+
+a {
+  text-decoration: var(--none);
+  font-weight: var(--bold-font);
+  color: var(--ef-key);
+
+  transition: var(--transition-color);
+  &:hover {
+    color: var(--ef-gray-darker);
+  }
+}
+
+button:hover, a:hover {
+  cursor: var(--pointer);
+}
+
+header > nav > a {
+  display: var(--inline-block);
+
+  margin: var(--xl-spacer) var(--margin-auto);
+  padding: var(--0-spacer);
+
+  width: var(--100-percent);
+  height: var(--logo-height);
+
+  background-image: var(--logo);
+  background-position: var(--true-center);
+  background-repeat: var(--no-repeat);
+
+  &:hover {
+    filter: invert(26%) sepia(98%) saturate(4247%) hue-rotate(286deg) brightness(87%) contrast(122%);
+  }
+
+  & > span {
+    position: var(--absolute);
+    left: var(--off-screen-spacer);
+  }
+}
+
+body > #main-nav-form {
+  text-align: var(--center);
+
+  & label {
+    display: var(--inline-block);
+    margin-right: var(--m-spacer);
+  }
+
+  & select {
+    appearance: var(--none);
+    border-radius: var(--0-spacer);
+    border: var(--none);
+    border-bottom: var(--spacer-3xs) var(--solid) var(--ef-key);
+    background: var(--transparent);
+    color: var(--ef-key);
+
+    font-size: var(--m-font);
+  }
+
+  & button {
+    position: var(--relative);
+    top: var(--2xs-spacer);
+
+    margin: var(--0-spacer) var(--m-spacer);
+    padding: var(--2xs-spacer) var(--m-spacer);
+    border-radius: var(--xs-spacer);
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: var(--xl-spacer);
+  font-family: var(--head-font);
+  font-size: var(--3xl-font);
+  line-height: var(--l-line-height);
+}
+
+h3, h4, h5, h6 {
+  text-align: var(--center);
+}
+
+main {
+  margin: var(--0-spacer) var(--xs-spacer);
+  padding-top: var(--xl-spacer);
+
+  & .heading-permalink {
+    display: var(--inline-block);
+    margin-right: var(--2xs-spacer);
+  }
+
+  table {
+    border-collapse: var(--collapse);
+    border: var(--spacer-3xs) var(--solid) var(--ef-gray-darker);
+    width: var(--100-percent); // will need to be changed
+
+    th, td {
+      padding: var(--s-spacer);
+      border-bottom: var(--spacer-3xs) var(--solid) var(--ef-gray-darker);
+    }
+  }
+}
+
+nav.next-previous {
+  margin: var(--xl-spacer) var(--auto) var(--l-spacer);
+  @media screen and (min-width: 720px) { // CSS var here doesn't seem to work
+      display: var(--grid);
+      grid-gap: var(--xl-spacer);
+      grid-template-columns: var(--fr-1) var(--fr-1);
+      grid-template-areas: var(--grid-columns-2);
+  }
+
+  & > a {
+    display: var(--block);
+    margin: var(--m-spacer);
+    padding: var(--xs-spacer) var(--m-spacer);
+    border: var(--2xs-spacer) var(--solid) var(--ef-key);
+    border-radius: var(--xs-spacer);
+
+    text-align: var(--center);
+
+    transition: var(--transition-color), var(--transition-bg-color);
+
+    &.previous {
+      grid-area: var(--1);
+    }
+
+    &:hover {
+      color: var(--ef-gray-lightest);
+      background-color: var(--ef-key);
+    }
+  }
+}
+
+[is="accordion"] {
+  margin: var(--0-spacer);
+  padding: var(--0-spacer);
+
+  &:first-of-type {
+    margin-top: var(--m-spacer);
+  }
+
+  & > button {
+    margin-top: var(--m-spacer);
+    margin-bottom: var(--0-spacer);
+    padding: var(--m-spacer);
+
+    width: var(--100-percent);
+
+    font-size: var(--l-spacer);
+    text-align: var(--left);
+
+    &:before {
+      margin-right: var(--xs-spacer);
+      content: var(--icon-plus);
+      font-size: var(--xl-font);
+    }
+
+    &[aria-expanded="true"]:before {
+      content: var(--icon-minus);
+    }
+  }
+
+  & + div[aria-hidden="true"] {
+    display: var(--none);
+  }
+
+  & + div[aria-hidden="false"] {
+    padding: var(--m-spacer);
+    margin-top: var(--neg-2-px);
+    border: var(--2xs-spacer) var(--solid) var(--ef-key);
+
+    & > ul:first-of-type {
+      margin-top: var(--0-spacer);
+    }
+  }
+}
+
+footer {
+  & > p {
+    text-align: var(--center);
+    font-size: var(--xs-font);
+  }
+}
+
+[rel~="noreferrer"]:after {
+  content: var(--icon-new-window);
+  display: var(--inline-block);
+  margin-left: var(--2xs-spacer);
+  position: var(--relative);
+  top: var(--icon-lift-spacer);
+}
