@@ -48,17 +48,17 @@ With that said, examples use 8fold criteria for accessibility and accommadation,
 
 ## Usage
 
-The examples folder contains an iterative demonstration of this approach, include the original Sass file for generating the 8fold Handbook site.
+The examples folder contains an iterative demonstration of this approach, include the original Sass file for generating the [8fold Handbook](https://handbook.8fold.link) site.
 
-- [Example 2] demonstrates a CSS-only approach: Only CSS variables define property values. Reduces duplication, facilitates find-and-replace swapping, improved position to add themes without adding CSS. Main limitation to this approach we found to be in potential bloat when adding all variables from a design system.
-- [Example 4] overcomes the limitation of the CSS-only approach by introducing Sass variables. Sass variables can be used to make an entire design system available while not adding anything to the CSS itself. CSS variables are then created as needed and reference the Sass variables. This establishes the main target CSS for all other approaches. Using the same overall design system across multiple sites becomes easier and depreacation become a matter of deleting the CSS variable without deleting the Sass variable. The limitation here is in readability.
-- [Examples 5a to 5d] overcomes this by using a Sass map and creating query and building functions to get to the values. The main limitation here comes in a degradation of readability.
-- [Example 6] overcomes this by creating a Sass module to house the Sass functions and mixins and then used by the main Sass file to generate the CSS.
+- [Example 2](https://github.com/8fold/sass-loom/blob/main/examples/sass_2.scss) demonstrates a CSS-only approach: Only CSS variables define property values. Reduces duplication, facilitates find-and-replace swapping, improved position to add themes without adding CSS. Main limitation to this approach we found to be in potential bloat when adding all variables from a design system.
+- [Example 4](https://github.com/8fold/sass-loom/blob/main/examples/sass_4.scss) overcomes the limitation of the CSS-only approach by introducing Sass variables. Sass variables can be used to make an entire design system available while not adding anything to the CSS itself. CSS variables are then created as needed and reference the Sass variables. This establishes the main target CSS for all other approaches. Using the same overall design system across multiple sites becomes easier and depreacation become a matter of deleting the CSS variable without deleting the Sass variable. The limitation here is in readability.
+- [Examples 5a](https://github.com/8fold/sass-loom/blob/main/examples/sass_5a.scss) to [5d](https://github.com/8fold/sass-loom/blob/main/examples/sass_5d.scss) overcomes this by using a Sass map and creating query and building functions to get to the values. The main limitation here comes in a degradation of readability.
+- [Example 6](https://github.com/8fold/sass-loom/tree/main/examples/sass_6) overcomes this by creating a Sass module to house the Sass functions and mixins and then used by the main Sass file to generate the CSS.
 
 ...this work is ongoing as we expand from the 8fold Handbook. The hypothetical result is a library avaialble via NPM for use by ourselves, the work we do for practitioners, and possibly others.
 
 
-# 8fold Loom
+## 8fold Loom considerations
 
 The idea behind Loom is to make creating design systems easier, which may not necessarily make software development easier at first.
 
@@ -70,13 +70,7 @@ Finally while the assessment presents a dichotomy (pain vs. joy) it is meant as 
 
 We do not know if the world needs something different. With that said, 8fold may want something different.
 
-## Notes and observations
-
-The following are notes and observations on the state of CSS tools, design systems, and so on broken into two buckets to keep thing from falling into the middle all the time; most of the mentions are toward the center.
-
-Referencing libraries and projects should not be taken as an endorsement or admonishment, just an acknowledgement and real-world reference.
-
-This is also the most raw section.
+This is the most raw section.
 
 ### Joy
 

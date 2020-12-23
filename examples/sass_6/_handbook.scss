@@ -1,0 +1,78 @@
+$variables: () !default;
+
+@use "sass:map"; // needed to interact with maps
+@use "sass:list"; // needed to interact with lists
+@use "sass:meta"; // neededd to get programmatic details
+
+@function valueAtMember($member, $vars) {
+    @if meta.type-of($member) == "number" {
+      @return list.nth($vars, $member);
+
+    }
+    @return map.get($vars, $member);
+}
+
+
+@function valueAtPath($varPath, $vars) {
+  $value: ();
+  $first: true;
+  @each $part in $varPath {
+    @if $first {
+      $value: valueAtMember($part, $vars);
+      $first: false;
+
+    } @else {
+      $value: valueAtMember($part, $value);
+
+    }
+  }
+  @return $value;
+}
+
+@function font-size($multiplierForMin: 1, $multiplierForMax: 1) {
+  $min:  map.get($variables, "fonts", "size", "min");
+  $minS: map.get($variables, "screens", "size", "min");
+
+  $minP: $min * $multiplierForMin;
+  $maxP: $min * $multiplierForMax;
+
+  $proportion: $minP / $minS * 100;
+
+  @return clamp(#{$minP}pt, #{$proportion}vw, #{$maxP}pt);
+}
+
+@function line-height($varName, $multiplier) {
+   @return calc(var(--#{$varName}) * #{$multiplier});
+}
+
+@function numberWithUnit($number, $unit: "") {
+  @return #{$number}#{$unit};
+}
+
+@mixin variable($varName, $varPath) {
+  $value: ();
+
+  @if meta.type-of($varPath) != "list" {
+    $value: $varPath;
+
+  } @else {
+    $value: valueAtPath($varPath, $variables);
+
+  }
+  --#{$varName}: #{$value};
+}
+
+@mixin variables($variables...) {
+  @each $variable in $variables {
+    $varName: list.nth($variable, 1);
+    $varPath: list.nth($variable, 2);
+
+    @include variable($varName, $varPath);
+  }
+}
+
+@mixin keywords($keywords...) {
+  @each $keyword in $keywords {
+    --#{$keyword}: #{$keyword};
+  }
+}
